@@ -24,6 +24,7 @@ public class MyPApplet extends PApplet{
 	
 	public void draw() {
 		//Add drawing code for MyPApplet
+		// height is an instance variable in the PApplet class
 		img.resize(0, height);			//resize loaded image to full height of canvas
 		image(img, 0, 0);			//display image 
 		int[] color = sunColorSec(second());		//calculate color code for sun

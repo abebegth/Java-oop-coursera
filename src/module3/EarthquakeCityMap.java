@@ -12,7 +12,9 @@ import processing.core.PApplet;
 //Unfolding libraries
 import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.marker.Marker;
+import de.fhpotsdam.unfolding.data.Feature;
 import de.fhpotsdam.unfolding.data.PointFeature;
+import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
@@ -65,9 +67,85 @@ public class EarthquakeCityMap extends PApplet {
 		
 	    map.zoomToLevel(2);
 	    MapUtils.createDefaultEventDispatcher(this, map);	
+	    
+//	    Location valloc = new Location(11.58, 37.38);
+//	    Feature valEq = new PointFeature(valloc);
+	    
+//	    valEq.addProperty("title", "Viladelvia, Chille");
+//	    valEq.addProperty("magnitude", "9.5");
+//	    valEq.addProperty("date", "May 22, 1960");
+	    
+//	    Bahir Dar Earth quake
+	    Location bdrloc = new Location(11.58, 37.38);
+	    PointFeature bdrftr = new PointFeature(bdrloc);
+	    bdrftr.addProperty("title", "Bahir Dar, Ethiopia");
+	    bdrftr.addProperty("magnitude", "0.2");
+	    bdrftr.addProperty("date", "March 15, 2001");
+	    bdrftr.addProperty("year", 2001);
+	    
+//	    Alaska earth quake
+	    Location alloc = new Location(64.08,-149.73);
+	    PointFeature alftr = new PointFeature(alloc);
+	    alftr.addProperty("title", "Alaska");
+	    alftr.addProperty("magnitude", "5.7");
+	    alftr.addProperty("date", "March 15, 2002");
+	    alftr.addProperty("year", 2002);
+	    
+	    // Chille earth quake
+	    Location chileloc = new Location(-38.14f, -73.03f);
+	    PointFeature chileftr = new PointFeature(chileloc);
+	    chileftr.addProperty("title", "Viladelvia, Chille");
+	    chileftr.addProperty("magnitude", "9.5");
+	    chileftr.addProperty("date", "May 22, 1960");
+	    chileftr.addProperty("year", 1960);
+	    
+	    // Colorado Earth quake
+	    Location colloc = new Location(38.18,-104.19);
+	    PointFeature colftr = new PointFeature(colloc);
+	    colftr.addProperty("title", "Denver, Colorado");
+	    colftr.addProperty("magnitude", "6.5");
+	    colftr.addProperty("date", "May 22, 1992");
+	    colftr.addProperty("year", 1992);
+	    
+//	    Japan Earth Quake
+	    Location japloc = new Location(35.67,139.08);
+	    PointFeature japftr = new PointFeature(japloc);
+	    japftr.addProperty("title", "Tokyo, Japan");
+	    japftr.addProperty("magnitude", "10.2");
+	    japftr.addProperty("date", "March 15, 2006");
+	    japftr.addProperty("year", 2006);
+	    
+	    
+	    
+	    List<PointFeature> bigEqs = new ArrayList<PointFeature>();
+	    bigEqs.add(bdrftr);
+	    bigEqs.add(chileftr);
+	    bigEqs.add(colftr);
+	    bigEqs.add(alftr);
+	    bigEqs.add(japftr);
+	    
+//	    Marker val = new SimplePointMarker(valloc, valEq.getProperties());
+//	    map.addMarker(val);
 			
 	    // The List you will populate with new SimplePointMarkers
 	    List<Marker> markers = new ArrayList<Marker>();
+	    
+	    for(PointFeature eq: bigEqs) {
+	    	markers.add(new SimplePointMarker(eq.getLocation(), eq.getProperties()));
+	    }
+	    
+	    // customizing the display of the markers based on the year
+	    int yellow = color(255, 255, 0);
+	    int gray = color(150, 150, 150);
+	    
+	    for(Marker mk: markers) {
+	    	if((int) mk.getProperty("year") > 2000) {
+	    		mk.setColor(yellow);
+	    	}
+	    	else {
+	    		mk.setColor(gray);
+	    	}
+	    }
 
 	    //Use provided parser to collect properties for each earthquake
 	    //PointFeatures have a getLocation method
